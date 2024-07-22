@@ -16,10 +16,8 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 25px;
 
-
-    background-color: rgb(223, 238, 252);
-    
-
+    background-color: rgb(15, 51, 85);
+    color: lightgray
 }
 
 #WelcomeLoginPanelLoginBox {
