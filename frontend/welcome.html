@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="imgs/payrus_icon.png">
+  <title>Payment Bridge</title>
+  
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+  
+  <link rel="stylesheet" href="payrus.css">
+  <link rel="stylesheet" href="welcome.css">
+  
+  <!--script src="https://js.stripe.com/v3/"></script-->
+  
+  <script src="welcome.js"></script>
+</head>
+
+<body">
+  <div id="PayrusHeader">
+    <div id="PayrusLeftSideHeaderMenu">
+      <div class="payrus-header-menu-item selected">Частным лицам</div>
+      <div class="payrus-header-menu-item">Регистрация</div>
+    </div>
+    <div id="PayrusRightSideHeaderMenu">
+      <div class="payrus-header-menu-item">О нас</div>
+      <div class="payrus-header-menu-item">Обратная связь</div>
+    </div>
+  </div>
+
+  <div id="PayrusPageMainArea">
+    <img id="PayrusLogo" src="imgs/payrus.png" width="200" height="70">
+    <div id="WelcomeLoginPanel">
+      <div id="WelcomeLoginPanelDescription">
+        Путешествуйте как раньше!
+        <br>
+        <br>
+        Путешествуйте легко!
+        <br>
+        <br>
+        <b>Платить за границей неудобно? Есть решение!</b>
+      </div>
+      <div id="WelcomeLoginPanelLoginBox">
+        <input id="WelcomeLoginPanelEmailInput" type="text" placeholder="Email">
+        <input id="WelcomeLoginPanelPasswordInput" type="password" placeholder="Пароль">
+        <input id="WelcomeLoginPanelRememberCheck" type="checkbox">
+        <label id="WelcomeLoginPanelRememberCheckLabel" for="WelcomeLoginPanelRememberCheck">Запомнить меня</label>
+        <button id="WelcomeLoginPanelLoginButton">Войти</button>
+        
+        <div id="WelcomeLoginPanelForgotPasswordPanel">
+          <a id="WelcomeLoginPanelForgotPasswordLink" href="">Забыли пароль?</a>
+        </div>
+
+        <div id="WelcomeLoginPanelCreateAccountPanel">
+          <label id="WelcomeLoginPanelCreateAccountLabel">Вы еще не занеристированы?</label>
+          <a id="WelcomeLoginPanelCreateAccountLink" href="">Зарегистрироваться!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="PayrusFooter">
+      PizTec Corporation, 2024.&nbsp;&nbsp;&nbsp;All Rights Reserved. 
+  </div>
+</body>
+</html>

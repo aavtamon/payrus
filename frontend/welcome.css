@@ -1,0 +1,130 @@
+#WelcomeLoginPanel {
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-top: 30px;
+}
+
+#WelcomeLoginPanelDescription {
+    display: inline-block;
+    width: calc(100% - 600px);
+    height: 420px;
+
+    padding: 20px 50px 20px 50px;
+
+    vertical-align: top;
+
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 25px;
+
+
+    background-color: rgb(223, 238, 252);
+    
+
+}
+
+#WelcomeLoginPanelLoginBox {
+    display: inline-block;
+    width: 300px;
+    height: 400px;
+
+    padding: 30px;
+
+    background-color: rgb(193, 19, 19);
+
+    font-size: 30px;
+}
+
+#WelcomeLoginPanelEmailInput, #WelcomeLoginPanelPasswordInput {
+    display: block;
+    margin-bottom: 20px;
+    width: calc(100% - 20px);
+
+    padding: 10px;
+    font-size: 20px;
+    font-family:'Times New Roman', Times, serif
+}
+
+#WelcomeLoginPanelRememberCheck {
+    width: 30px;
+    height: 30px;
+
+    margin: 0px;
+}
+#WelcomeLoginPanelRememberCheckLabel {
+    color: white;
+    font-size: 25px;
+    vertical-align: text-top;
+
+    user-select: none;
+}
+
+#WelcomeLoginPanelLoginButton {
+    display: block;
+    width: 100%;
+    
+    padding: 5px;
+    margin-top: 20px;    
+    font-size: 30px;
+    background-color: transparent;
+    color: white;
+
+    border-style: solid;
+    border-color: white;
+    border-width: 2px;
+    border-radius: 10px;
+}
+#WelcomeLoginPanelLoginButton:hover {
+    background-color: rgb(7, 7, 84);
+}
+#WelcomeLoginPanelLoginButton:active {
+    background-color: rgb(2, 2, 36);
+    color: gray;
+    border-color: gray;
+}
+
+#WelcomeLoginPanelForgotPasswordPanel {
+    width: 100%;
+    margin-top: 10px;
+    text-align: right;
+}
+
+#WelcomeLoginPanelForgotPasswordLink {
+    font-size: 20px;
+    color: white;
+}
+#WelcomeLoginPanelForgotPasswordLink:hover {
+    color: lightgray
+}
+#WelcomeLoginPanelForgotPasswordLink:active {
+    color: gray
+}
+
+
+#WelcomeLoginPanelCreateAccountPanel {
+    width: 100%;
+    margin-top: 20px;
+
+    text-align: center;
+}
+
+#WelcomeLoginPanelCreateAccountLabel {
+    display: block;
+    margin-top: 40px;
+    color: lightgray;
+    font-size: 20px;
+
+    user-select: none;
+}
+
+#WelcomeLoginPanelCreateAccountLink {
+    display: block;
+    margin-top: 10px;
+    font-size: 30px;
+    color: white;   
+}
+#WelcomeLoginPanelCreateAccountLink:hover {
+    color: lightgray;
+}
+#WelcomeLoginPanelCreateAccountLink:active {
+    color: rgb(7, 7, 84);
+}
