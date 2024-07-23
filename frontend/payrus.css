@@ -42,13 +42,17 @@ body {
 }
 
 #PayrusPageMainArea {
-  margin-top: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   width: 100%;
 }
 
 #PayrusLogo {
   margin-top: 20px;
   margin-left: 50px;
+
+  width: 200px;
+  height: 70px;
 }
 
 #PayrusFooter {
