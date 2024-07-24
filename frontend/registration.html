@@ -9,6 +9,76 @@
   <link rel="stylesheet" href="registration.css">
 </head>
 
+<script>
+  function validateEmail() {
+    return validateInputField("RegistrationPanelEmailInput", "RegistrationPanelEmailStatus", function(value) {
+      return String(value).toLowerCase().match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+    })
+  }
+
+  function validatePassword() {
+    return validateInputField("RegistrationPanelPasswordInput", "RegistrationPanelPasswordStatus", function(value) {
+      return String(value).toLowerCase().match(
+        /^([0-9]|[a-z]){10,}$/
+      )
+    })
+  }
+
+  function validatePasswordAndResetRetype() {
+    document.getElementById("RegistrationPanelRetypePasswordInput").value = ""
+    validatePassword()
+  }
+
+  function validateRetypePassword() {
+    passwordElement = document.getElementById("RegistrationPanelPasswordInput")
+    return validateInputField("RegistrationPanelRetypePasswordInput", "RegistrationPanelRetypePasswordStatus", function(value) {
+      return value == passwordElement.value
+    })
+  }
+
+  function validateInputField(elementId, statusElementId, validator) {
+    element = document.getElementById(elementId)
+    statusElement = document.getElementById(statusElementId)
+
+    isValid = false
+
+    if (element.value == "") {
+      statusElement.classList.remove("bad")
+      statusElement.classList.remove("good")
+    } else {
+      if (validator(element.value)) {
+        statusElement.classList.remove("bad")
+        statusElement.classList.add("good")
+
+        isValid = true
+      } else {
+        statusElement.classList.remove("good")
+        statusElement.classList.add("bad")
+      }
+    }
+
+    return isValid
+  }
+
+  function performRegistration() {
+    isValid = validateEmail() && validatePassword() && validateRetypePassword()
+
+    statusElement = document.getElementById("RegistrationPanelStatus")
+    if (!isValid) {
+      statusElement.innerHTML = "Убежитесь что все поля правильно заполнены"
+    } else {
+      acceptTermsElement = document.getElementById("RegistrationPanelAcceptTermsCheck")
+      if (acceptTermsElement.checked) {
+        statusElement.innerHTML = "Регистрируем эккаунт..."
+      } else {
+        statusElement.innerHTML = "Подтвердите согласие на обрабоку персональных данных"
+      }
+    }
+  }
+</script>
+
 <body">
   <div id="PayrusHeader">
     <div id="PayrusLeftSideHeaderMenu">
@@ -24,6 +94,42 @@
   <div id="PayrusPageMainArea">
     <img id="PayrusLogo" src="imgs/payrus.png">
     <div id="RegistrationPanel">
+      <div id="RegistrationDescription">
+        Для того чтобы пользоваться нашими сервисами вам необходимо зарегистрироваться.
+        <br>
+        В процессе регистрации вам будет необходимо заподгтьб всего нескоьлко полей, но некторые из них
+        относятся к категории общей песональной информации.
+        <br>
+        Ввиду этого факта вам будет необходимо подтвердить свое согласие на то, что наш сервис может сохранять, обрабатывать и передавать часть этих данный третим лицам.
+        <br>
+        Мы собираем лишь минимальную информацию, необходимую для только чтобы на Ваше имя можно было выпустить карточку.
+        <br>
+        Мы обрпащаем ваше вниминие, что данные введенные при решистрации будут передаваться и обраьатываться за пределы территории Российской Федерации.
+      </div>
+      <div id="RegistrationBox">
+        <div id="RegistrationPanelEmailBox">
+          <input id="RegistrationPanelEmailInput" type="text" placeholder="Email" oninput="validateEmail()">
+          <div id="RegistrationPanelEmailStatus" class="input_status"></div>
+          <div id="RegistrationPanelEmailHelp">На указанную электронную почту придет подтвержение</div>
+        </div>
+        <div id="RegistrationPanelPasswordBox">
+          <input id="RegistrationPanelPasswordInput" type="password" placeholder="Пароль" oninput="validatePasswordAndResetRetype()">
+          <div id="RegistrationPanelPasswordStatus" class="input_status"></div>
+          <div id="RegistrationPanelPasswordHelp">Пароль должен содержать не менее 10 символов</div>
+        </div>
+        <div id="RegistrationPanelRetypePasswordBox">
+          <input id="RegistrationPanelRetypePasswordInput" type="password" placeholder="Повторите пароль" oninput="validateRetypePassword()">
+          <div id="RegistrationPanelRetypePasswordStatus" class="input_status"></div>
+          <div id="RegistrationPanelRetypePasswordHelp">Повторно введенный пароль должен совпасть</div>
+        </div>
+        <input id="RegistrationPanelAcceptTermsCheck" type="checkbox">
+        <label id="RegistrationPanelAcceptTermsCheckLabel" for="RegistrationPanelAcceptTermsCheck">Я согласен</label>
+        <div id="RegistrationPanelTerms">
+          Совершая регистрацию, я подтверждаю свое согласие на сбор, обработку и хранение, а также передачу моих пкрсональных данных, включая передачу и обработку моих данные за пределами Российской Федерации.
+        </div>
+        <button id="RegistrationButton" onclick="performRegistration()">Зарегистрироваться</button>
+        <div id="RegistrationPanelStatus"></div>
+      </div>
     </div>
   </div>
 
