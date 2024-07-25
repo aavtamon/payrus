@@ -1,23 +1,173 @@
-#HowItWorksPanel {
-    padding-left: 50px;
-    padding-right: 50px;
-    margin-top: 30px;
+#DashboardPanel {
+    padding-left: 100px;
+    padding-right: 100px;
+    margin-top: 50px;
 }
 
-#HowItWorksDescription, #HowItWorksFAQ {
-    padding: 20px 50px 20px 50px;
+#DashboardCardPanel {
+    display: inline-block;
+}
 
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 20px;
-
-    border: 1px inset darkgrey;
+#DashboardCardStab {
+    border: 2px solid darkgrey;
     border-radius: 5px;
 
-    background-color: rgb(251, 245, 239);
+    width: 500px;
+    height: 300px;
+
+    background-color: rgb(49, 47, 44);
     color: black;
 }
 
+#DashboardCardStabLogoLabel {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
 
-#HowItWorksFAQ {
+    text-align: center;
+    font-size: 30px;
+    font-style: italic;
+    font-family: cursive;
+    color: lightcyan;
+}
+
+#DashboardCardStabFirstNameInput, #DashboardCardStabLastNameInput {
+    display: block;
+    margin-left: 50px;
+    width: 300px;
+
+    padding: 10px;
+    font-size: 20px;
+    font-family:'Times New Roman', Times, serif
+}
+
+#DashboardCardStabFirstNameInput {
+    margin-top: 20px;
+}
+
+#DashboardCardStabLastNameInput {
+    margin-top: 20px;
+}
+
+#DashboardCardStabOrderButton {
+    display: block;
+    margin-top: 40px;
+    margin-left: 180px;
+
+    width: 300px;
+}
+
+
+#DashboardCard {
+    border: 2px solid darkcyan;
+    border-radius: 5px;
+
+    width: 500px;
+    height: 300px;
+
+    background-color: rgb(49, 47, 44);
+    color: black;
+}
+
+#DashboardCardLogoLabel {
+    display: block;
+    width: 100%;
     margin-top: 30px;
+
+    text-align: center;
+    font-size: 40px;
+    font-style: italic;
+    font-family: cursive;
+    color: rgb(131, 166, 166);
+}
+
+#DashboardCardCurrentFundsPanel {
+    margin-top: 30px;
+    margin-left: 200px;
+
+    width: 300px;
+}
+
+#DashboardCardCurrentFundsLabel {
+    font-size: 30px;
+    color: white;
+
+    margin-right: 10px;
+    vertical-align: super;
+}
+
+#DashboardCardCurrentFundsValue {
+    font-size: 40px;
+    color: white;
+}
+
+#DashboardCardInscriptionLabel {
+    display: block;
+
+    margin-top: 30px;
+    text-align: center;
+
+    font-size: 25px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: white;
+}
+
+#DashboardCardExpirationPanel {
+    margin-top: 20px;
+    font-size: 20px;
+    color: white;
+    text-align: right;
+    margin-right: 50px;
+}
+
+#DashboardCardManagement {
+    margin-top: 20px;
+    text-align: right;
+
+    font-size: 25px;
+}
+
+#DashboardCardLostLink, #DashboardCardReplaceLink {
+    display: block;
+    margin-top: 10px;
+}
+
+#DashboardFundsPanel {
+    display: inline-block;
+    vertical-align: top;
+
+    margin-left: 100px;
+
+    text-align: center;
+}
+
+#DashboardAddFundsLabel {
+   display: block;
+   font-size: 30px;
+
+   margin-bottom: 30px;
+}
+
+#DashboardAddFundsInput {
+    width: 200px;
+    padding: 10px;
+    font-size: 20px;
+    font-family:'Times New Roman', Times, serif;
+
+    margin-right: 30px;
+}
+
+#DashboardAddFundsConversionLabel, #DashboardAddFundsConversionValue {
+    font-size: 20px;
+}
+
+#DashboardCardAddFundsButton {
+    display: block;
+    margin-top: 40px;
+
+    width: 225px;
+    
+    border-color: black;
+    color: black;
 }

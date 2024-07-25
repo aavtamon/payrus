@@ -6,7 +6,7 @@
   <title>Payment Bridge</title>
   
   <link rel="stylesheet" href="payrus.css">
-  <link rel="stylesheet" href="howitworks.css">
+  <link rel="stylesheet" href="dashboard.css">
   <script src="frontend.js"></script>
 </head>
 
@@ -34,14 +34,23 @@
     <div id="DashboardPanel">
       <div id="DashboardCardPanel">
         <div id="DashboardCardStab">
+          <label id="DashboardCardStabLogoLabel">Payment Bridge Services</label>
           <input id="DashboardCardStabFirstNameInput" type="text" placeholder="Имя (латинницей)">
           <input id="DashboardCardStabLastNameInput" type="text" placeholder="Фамилия (латинницей)">
           <button id="DashboardCardStabOrderButton" onclick="performCardOrdering()">Заказать карту</button>
           <div id="DashboardCardStabOrderStatus"></div>
         </div>
         <div id="DashboardCard">
-          <label id="DashboardCardFirstNameLabel"></label>
-          <label id="DashboardCardLastNameLabel"></label>
+          <div id="DashboardCardCurrentFundsPanel">
+            <label id="DashboardCardCurrentFundsLabel">Доступно:</label>
+            <label id="DashboardCardCurrentFundsValue">$0</label>  
+          </div>
+          <label id="DashboardCardLogoLabel">Payment Bridge Services</label>
+          <label id="DashboardCardInscriptionLabel">Firstname Lastnamovich</label>
+          <div id="DashboardCardExpirationPanel">
+            <label id="DashboardCardExpirationLabel">Expires:</label>
+            <label id="DashboardCardExpirationValue">01/25</label>
+          </div>
         </div>
         <div id="DashboardCardManagement">
           <a id="DashboardCardLostLink" href="card_lost.html">Я потерял карту</a>
@@ -52,13 +61,12 @@
         </div>
       </div>
       <div id="DashboardFundsPanel">
-        <div id="DashboardCurrentFundsPanel">
-          <label id="DashboardCurrentFundsLabel">Текущий лимит расходования:</label>
-          <label id="DashboardCurrentFundsValue"></label>
-        </div>
         <div id="DashboardAddFundsPanel">
-          <input id="DashboardAddFundsPanel" type="text" placeholder="Сумма">
-          <button id="DashboardCardStabOrderButton" onclick="performFundsRequest()">Увеличить лимит расходования</button>
+          <label id="DashboardAddFundsLabel">Увеличить лимит расходования</label>
+          <input id="DashboardAddFundsInput" type="text" placeholder="Сумма в рублях">
+          <label id="DashboardAddFundsConversionLabel">В долларовом эквиваленте:</label>
+          <label id="DashboardAddFundsConversionValue">$0</label>
+          <button id="DashboardCardAddFundsButton" onclick="performFundsRequest()">Добавить</button>
           <div id="DashboardAddFundsQRCode"></div>
         </div>
       </div>

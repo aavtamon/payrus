@@ -59,26 +59,7 @@
 #WelcomeLoginPanelLoginButton {
     display: block;
     width: 100%;
-    
-    padding: 5px;
-    margin-top: 20px;    
-    font-size: 30px;
-    background-color: transparent;
-    color: white;
-
-    border-style: solid;
-    border-color: white;
-    border-width: 2px;
-    border-radius: 10px;
-}
-#WelcomeLoginPanelLoginButton:hover {
-    background-color: rgb(7, 7, 84);
-}
-#WelcomeLoginPanelLoginButton:active {
-    background-color: rgb(2, 2, 36);
-    color: gray;
-    border-color: gray;
-}
+}    
 
 #WelcomeLoginPanelForgotPasswordPanel {
     width: 100%;
