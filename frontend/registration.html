@@ -7,6 +7,8 @@
   
   <link rel="stylesheet" href="payrus.css">
   <link rel="stylesheet" href="registration.css">
+
+  <script src="frontend.js"></script>
 </head>
 
 <script>
@@ -38,6 +40,18 @@
     })
   }
 
+  function validateDOB() {
+    return validateInputField("RegistrationPanelDOBInput", "RegistrationPanelDOBStatus", function(value) {
+      selectedDate = new Date(value)
+      currentDate = Date.now()
+      dateOffset = (24*60*60*1000) * 365 * 21; // 21 years
+
+      return currentDate - selectedDate > dateOffset
+    })
+
+  }
+
+
   function validateInputField(elementId, statusElementId, validator) {
     element = document.getElementById(elementId)
     statusElement = document.getElementById(statusElementId)
@@ -63,7 +77,7 @@
   }
 
   function performRegistration() {
-    isValid = validateEmail() && validatePassword() && validateRetypePassword()
+    isValid = validateEmail() && validatePassword() && validateRetypePassword() && validateDOB()
 
     statusElement = document.getElementById("RegistrationPanelStatus")
     if (!isValid) {
@@ -72,6 +86,19 @@
       acceptTermsElement = document.getElementById("RegistrationPanelAcceptTermsCheck")
       if (acceptTermsElement.checked) {
         statusElement.innerHTML = "Регистрируем эккаунт..."
+
+        email = document.getElementById("RegistrationPanelEmailInput").value
+        password = document.getElementById("RegistrationPanelPasswordInput").value
+        dob = document.getElementById("RegistrationPanelDOBInput").value
+        createAccount(email, password, dob, function(error) {
+          if (error == null) {
+            // Registration is successful - move forward to the dashboard
+            window.location = "dashboard.html"
+          } else {
+            // Registration failed
+            statusElement.innerHTML = "Что то пошло не так: " + error  
+          }
+        })
       } else {
         statusElement.innerHTML = "Подтвердите согласие на обрабоку персональных данных"
       }
@@ -122,6 +149,12 @@
           <div id="RegistrationPanelRetypePasswordStatus" class="input_status"></div>
           <div id="RegistrationPanelRetypePasswordHelp">Повторно введенный пароль должен совпасть</div>
         </div>
+        <div id="RegistrationPanelDOBBox">
+          <input id="RegistrationPanelDOBInput" type="date" onchange="validateDOB()">
+          <div id="RegistrationPanelDOBStatus" class="input_status"></div>
+          <div id="RegistrationPanelDOBHelp">Вы должны быть старше 21 чтобы использовать сервис</div>
+        </div>
+
         <input id="RegistrationPanelAcceptTermsCheck" type="checkbox">
         <label id="RegistrationPanelAcceptTermsCheckLabel" for="RegistrationPanelAcceptTermsCheck">Я согласен</label>
         <div id="RegistrationPanelTerms">

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="imgs/payrus_icon.png">
+  <title>Payment Bridge</title>
+  
+  <link rel="stylesheet" href="payrus.css">
+  <link rel="stylesheet" href="howitworks.css">
+  <script src="frontend.js"></script>
+</head>
+
+<script>
+  function performLogout() {
+    logOut(function(event) {
+      window.location="welcome.html"
+    })
+  }
+</script>
+
+<body">
+  <div id="PayrusHeader">
+    <div id="PayrusLeftSideHeaderMenu">
+        <div class="payrus-header-menu-item selected" onclick="window.location='dashboard.html'">Мой Эккаунт</div>
+      </div>
+      <div id="PayrusRightSideHeaderMenu">
+        <div class="payrus-header-menu-item" onclick="window.location='profile.html'">Настройки Профиля</div>
+        <div class="payrus-header-menu-item" onclick="performLogout()">Выйти</div>
+      </div>
+    </div>
+
+  <div id="PayrusPageMainArea">
+    <img id="PayrusLogo" src="imgs/payrus.png">
+    <div id="DashboardPanel">
+      <div id="DashboardCardPanel">
+        <div id="DashboardCardStab">
+          <input id="DashboardCardStabFirstNameInput" type="text" placeholder="Имя (латинницей)">
+          <input id="DashboardCardStabLastNameInput" type="text" placeholder="Фамилия (латинницей)">
+          <button id="DashboardCardStabOrderButton" onclick="performCardOrdering()">Заказать карту</button>
+          <div id="DashboardCardStabOrderStatus"></div>
+        </div>
+        <div id="DashboardCard">
+          <label id="DashboardCardFirstNameLabel"></label>
+          <label id="DashboardCardLastNameLabel"></label>
+        </div>
+        <div id="DashboardCardManagement">
+          <a id="DashboardCardLostLink" href="card_lost.html">Я потерял карту</a>
+          <a id="DashboardCardReplaceLink" href="card_lost.html">Заказать замену</a>
+        </div>
+        <div id="DashboardCardTransactionsPanel">
+
+        </div>
+      </div>
+      <div id="DashboardFundsPanel">
+        <div id="DashboardCurrentFundsPanel">
+          <label id="DashboardCurrentFundsLabel">Текущий лимит расходования:</label>
+          <label id="DashboardCurrentFundsValue"></label>
+        </div>
+        <div id="DashboardAddFundsPanel">
+          <input id="DashboardAddFundsPanel" type="text" placeholder="Сумма">
+          <button id="DashboardCardStabOrderButton" onclick="performFundsRequest()">Увеличить лимит расходования</button>
+          <div id="DashboardAddFundsQRCode"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="PayrusFooter">
+      PizTec Corporation, 2024.&nbsp;&nbsp;&nbsp;All Rights Reserved. 
+  </div>
+</body>
+</html>

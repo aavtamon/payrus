@@ -1,0 +1,23 @@
+#HowItWorksPanel {
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-top: 30px;
+}
+
+#HowItWorksDescription, #HowItWorksFAQ {
+    padding: 20px 50px 20px 50px;
+
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+
+    border: 1px inset darkgrey;
+    border-radius: 5px;
+
+    background-color: rgb(251, 245, 239);
+    color: black;
+}
+
+
+#HowItWorksFAQ {
+    margin-top: 30px;
+}

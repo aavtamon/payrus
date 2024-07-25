@@ -7,7 +7,7 @@
 #RegistrationDescription {
     display: inline-block;
     width: calc(100% - 750px);
-    height: 500px;
+    height: 610px;
     margin-left: 50px;
 
     padding: 20px 50px 20px 50px;
@@ -24,7 +24,7 @@
 #RegistrationBox {
     display: inline-block;
     width: 500px;
-    height: 480px;
+    height: 590px;
 
     padding: 30px;
 
@@ -35,14 +35,14 @@
     font-size: 30px;
 }
 
-#RegistrationPanelEmailBox, #RegistrationPanelPasswordBox, #RegistrationPanelRetypePasswordBox {
+#RegistrationPanelEmailBox, #RegistrationPanelPasswordBox, #RegistrationPanelRetypePasswordBox, #RegistrationPanelDOBBox {
     display: block;
     margin-bottom: 20px;
 }
 
-#RegistrationPanelEmailInput, #RegistrationPanelPasswordInput, #RegistrationPanelRetypePasswordInput {
+#RegistrationPanelEmailInput, #RegistrationPanelPasswordInput, #RegistrationPanelRetypePasswordInput, #RegistrationPanelDOBInput {
     display: inline-block;
-    width: calc(100% - 75px);
+    width: calc(100% - 80px);
     padding: 10px;
     vertical-align: top;
 
@@ -50,14 +50,14 @@
     font-family:'Times New Roman', Times, serif
 }
 
-#RegistrationPanelEmailStatus, #RegistrationPanelPasswordStatus, #RegistrationPanelRetypePasswordStatus {
-    width: 40px;
-    height: 40px;
+#RegistrationPanelEmailStatus, #RegistrationPanelPasswordStatus, #RegistrationPanelRetypePasswordStatus, #RegistrationPanelDOBStatus {
+    width: 45px;
+    height: 45px;
 }
 
 .input_status {
     display: inline-block;
-    
+    background-size: contain;
 }
 .input_status.good {
     background-image: url("imgs/check.png");
@@ -66,7 +66,7 @@
     background-image: url("imgs/cross.png");
 }
 
-#RegistrationPanelEmailHelp, #RegistrationPanelPasswordHelp, #RegistrationPanelRetypePasswordHelp {
+#RegistrationPanelEmailHelp, #RegistrationPanelPasswordHelp, #RegistrationPanelRetypePasswordHelp, #RegistrationPanelDOBHelp {
     margin-left: 10px;
     margin-top: 5px;
     font-size: 15px;
