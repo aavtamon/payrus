@@ -26,6 +26,7 @@
 
       document.getElementById("DashboardCardInscriptionLabel").innerHTML = config.card.firstName + " " + config.card.lastName
       document.getElementById("DashboardCardExpirationValue").innerHTML = config.card.expiration
+      document.getElementById("DashboardCardCurrentFundsValue").innerHTML = "$" + config.card.balance
     } else {
       document.getElementById("DashboardCardStab").style.display = "block"
       document.getElementById("DashboardCard").style.display = "none"
