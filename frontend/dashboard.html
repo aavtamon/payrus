@@ -11,14 +11,86 @@
 </head>
 
 <script>
+  function onPageLoad() {
+    conversionRateElement = document.getElementById("DashboardAddFundsConversionRate")
+    conversionRateElement.innerHTML = getConfiguration().conversionRate + " руб/доллар"
+
+    initCardPanel()
+  }
+
+  function initCardPanel() {
+    config = getConfiguration()
+    if (config.card != null) {
+      document.getElementById("DashboardCardStab").style.display = "none"
+      document.getElementById("DashboardCard").style.display = "block"
+
+      document.getElementById("DashboardCardInscriptionLabel").innerHTML = config.card.firstName + " " + config.card.lastName
+      document.getElementById("DashboardCardExpirationValue").innerHTML = config.card.expiration
+    } else {
+      document.getElementById("DashboardCardStab").style.display = "block"
+      document.getElementById("DashboardCard").style.display = "none"
+    }
+  }
+
   function performLogout() {
-    logOut(function(event) {
+    logOut(function(error) {
       window.location="welcome.html"
     })
   }
+
+  function performCardOrdering() {
+    firstName = document.getElementById("DashboardCardStabFirstNameInput").value
+    lastName = document.getElementById("DashboardCardStabLastNameInput").value
+    orderCard(firstName, lastName, function(error) {
+      if (error == null) {
+        initCardPanel()
+        document.getElementById("DashboardCardStab").style.display = "none"
+        document.getElementById("DashboardCard").style.display = "block"
+      }
+    })
+  }
+
+  function validateAddFunds() {
+    valid = false
+    value = document.getElementById("DashboardAddFundsInput").value
+    if (value != "") {
+      funds = parseInt(value)
+      valid = funds > 0 && funds <= 100000
+    }
+
+    setElementValid("DashboardAddFundsInput", valid)
+    setElementEnabled("DashboardAddFundsButton", valid)
+
+    dollarValue = "-"
+    if (valid) {
+      dollarValue = funds / getConfiguration().conversionRate
+      document.getElementById("DashboardAddFundsInDollarsValue").innerHTML = "$" + dollarValue
+    } else {
+      document.getElementById("DashboardAddFundsInDollarsValue").innerHTML = value == "" ? "$0" : "-"
+    }
+  }
+
+
+  function validateCardOrdering() {
+    nameValidator = function(name) {
+      return name == "" || String(name).toLowerCase().match(
+        /^([a-z])+$/
+      ) != null
+    }
+    
+    firstNameElement = document.getElementById("DashboardCardStabFirstNameInput")
+    firstNameValid = nameValidator(firstNameElement.value)
+    setElementValid("DashboardCardStabFirstNameInput", firstNameValid)
+
+    lastNameElement = document.getElementById("DashboardCardStabLastNameInput")
+    lastNameValid = nameValidator(lastNameElement.value)
+    setElementValid("DashboardCardStabLastNameInput", lastNameValid)
+
+    setElementEnabled("DashboardCardStabOrderButton", lastNameElement.value != "" && firstNameValid && lastNameElement.valud != "" && lastNameValid)
+  }
 </script>
 
-<body">
+<body onload="onPageLoad()">
   <div id="PayrusHeader">
     <div id="PayrusLeftSideHeaderMenu">
         <div class="payrus-header-menu-item selected" onclick="window.location='dashboard.html'">Мой Эккаунт</div>
@@ -35,9 +107,9 @@
       <div id="DashboardCardPanel">
         <div id="DashboardCardStab">
           <label id="DashboardCardStabLogoLabel">Payment Bridge Services</label>
-          <input id="DashboardCardStabFirstNameInput" type="text" placeholder="Имя (латинницей)">
-          <input id="DashboardCardStabLastNameInput" type="text" placeholder="Фамилия (латинницей)">
-          <button id="DashboardCardStabOrderButton" onclick="performCardOrdering()">Заказать карту</button>
+          <input id="DashboardCardStabFirstNameInput" type="text" placeholder="Имя (латинницей)" oninput="validateCardOrdering()">
+          <input id="DashboardCardStabLastNameInput" type="text" placeholder="Фамилия (латинницей)" oninput="validateCardOrdering()">
+          <button id="DashboardCardStabOrderButton" disabled onclick="performCardOrdering()">Заказать карту</button>
           <div id="DashboardCardStabOrderStatus"></div>
         </div>
         <div id="DashboardCard">
@@ -63,10 +135,23 @@
       <div id="DashboardFundsPanel">
         <div id="DashboardAddFundsPanel">
           <label id="DashboardAddFundsLabel">Увеличить лимит расходования</label>
-          <input id="DashboardAddFundsInput" type="text" placeholder="Сумма в рублях">
-          <label id="DashboardAddFundsConversionLabel">В долларовом эквиваленте:</label>
-          <label id="DashboardAddFundsConversionValue">$0</label>
-          <button id="DashboardCardAddFundsButton" onclick="performFundsRequest()">Добавить</button>
+          <div>
+            <input id="DashboardAddFundsInput" type="number" placeholder="Сумма в рублях" oninput="validateAddFunds()">
+            <div id="DashboardAddFundsConversionPanel">
+              <div>
+                <label id="DashboardAddFundsInDollarsLabel">В долларовом эквиваленте:</label>
+                <label id="DashboardAddFundsInDollarsValue">$0</label>
+              </div>
+              <div>
+                <label id="DashboardAddFundsConversionLabel">Курс конвертации:</label>
+                <label id="DashboardAddFundsConversionRate"></label>
+              </div>
+            </div>
+            <label id="DashboardAddFundsLimitLabel">Не более 100,000 рублей за транзакцию</label>
+          </div>
+          <button id="DashboardAddFundsButton" disabled onclick="performFundsRequest()">Оплатить</button>
+          <hr>
+          <label id="DashboardQRCodeLabel">Отсканируйте QR-код для оплаты</label>
           <div id="DashboardAddFundsQRCode"></div>
         </div>
       </div>

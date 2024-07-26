@@ -51,31 +51,6 @@
 
   }
 
-
-  function validateInputField(elementId, statusElementId, validator) {
-    element = document.getElementById(elementId)
-    statusElement = document.getElementById(statusElementId)
-
-    isValid = false
-
-    if (element.value == "") {
-      statusElement.classList.remove("bad")
-      statusElement.classList.remove("good")
-    } else {
-      if (validator(element.value)) {
-        statusElement.classList.remove("bad")
-        statusElement.classList.add("good")
-
-        isValid = true
-      } else {
-        statusElement.classList.remove("good")
-        statusElement.classList.add("bad")
-      }
-    }
-
-    return isValid
-  }
-
   function performRegistration() {
     isValid = validateEmail() && validatePassword() && validateRetypePassword() && validateDOB()
 

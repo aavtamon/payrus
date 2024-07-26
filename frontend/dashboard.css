@@ -9,6 +9,7 @@
 }
 
 #DashboardCardStab {
+    display: none;
     border: 2px solid darkgrey;
     border-radius: 5px;
 
@@ -38,7 +39,8 @@
 
     padding: 10px;
     font-size: 20px;
-    font-family:'Times New Roman', Times, serif
+    font-weight: bold;
+    font-family:'Courier New', Courier, monospace
 }
 
 #DashboardCardStabFirstNameInput {
@@ -59,6 +61,7 @@
 
 
 #DashboardCard {
+    display: none;
     border: 2px solid darkcyan;
     border-radius: 5px;
 
@@ -136,38 +139,99 @@
 #DashboardFundsPanel {
     display: inline-block;
     vertical-align: top;
+    width: 700px;
 
-    margin-left: 100px;
+    margin-left: 20px;
 
-    text-align: center;
+    border: 1px inset darkgray;
 }
+
+#DashboardAddFundsPanel {
+    margin: 20px 20px 20px 20px;
+
+    font-family:'Courier New', Courier, monospace
+}
+
 
 #DashboardAddFundsLabel {
    display: block;
-   font-size: 30px;
-
    margin-bottom: 30px;
+
+   text-align: center;
+   font-size: 30px;
+   font-weight: bold;
 }
 
 #DashboardAddFundsInput {
     width: 200px;
     padding: 10px;
+    vertical-align: bottom;
+
     font-size: 20px;
-    font-family:'Times New Roman', Times, serif;
 
     margin-right: 30px;
 }
 
-#DashboardAddFundsConversionLabel, #DashboardAddFundsConversionValue {
+#DashboardAddFundsInDollarsLabel, #DashboardAddFundsInDollarsValue {
     font-size: 20px;
 }
 
-#DashboardCardAddFundsButton {
+#DashboardAddFundsConversionPanel {
+    display: inline-block;
+
+    font-size: 20px;
+}
+
+#DashboardAddFundsLimitLabel {
     display: block;
-    margin-top: 40px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+#DashboardAddFundsConversionRate, #DashboardAddFundsInDollarsValue {
+    font-weight: bold;
+}
+
+#DashboardAddFundsButton {
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 350px;
 
     width: 225px;
     
     border-color: black;
     color: black;
+}
+#DashboardAddFundsButton:hover {
+    background-color: rgb(226, 222, 220);
+}
+#DashboardAddFundsButton:active {
+    background-color: rgb(152, 150, 149);
+}
+#DashboardAddFundsButton:disabled {
+    color: lightgray;
+    border-color: lightgray;
+    background-color: transparent;
+}  
+
+#DashboardQRCodeLabel {
+    display: block;
+    margin-top: 30px;
+
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+#DashboardAddFundsQRCode {
+    display: block;
+    width: 200px;
+    height: 200px;
+
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 200px;
+
+    border: 1px outset black;
 }

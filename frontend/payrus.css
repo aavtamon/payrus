@@ -89,3 +89,12 @@ button:active {
   color: gray;
   border-color: gray;
 }
+button:disabled {
+  color: lightgray;
+  border-color: lightgray;
+  background-color: transparent;
+}
+
+input.invalid {
+  background-color: rgb(249, 207, 207);
+}
