@@ -1,0 +1,4 @@
+
+server:
+  web_root: "/Users/anton/HDD/personal/project/payrus/frontend/"
+  web_port: 8888

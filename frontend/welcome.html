@@ -8,10 +8,36 @@
   <link rel="stylesheet" href="payrus.css">
   <link rel="stylesheet" href="welcome.css">
   
-  <!--script src="https://js.stripe.com/v3/"></script-->
-  
   <script src="frontend.js"></script>
+  <script src="backend.js"></script>
 </head>
+
+<script>
+  function validateEmail() {
+    Frontend.validateInputField("WelcomeLoginPanelEmailInput", Frontend.emailValidator)
+
+    Frontend.setElementEnabled("WelcomeLoginPanelLoginButton", canLogIn())
+  }
+
+  function validatePassword() {
+    Frontend.validateInputField("WelcomeLoginPanelPasswordInput", Frontend.passwordValidator)
+
+    Frontend.setElementEnabled("WelcomeLoginPanelLoginButton", canLogIn())
+  }
+
+  function canLogIn() {
+    return Frontend.emailValidator(document.getElementById("WelcomeLoginPanelEmailInput").value)
+      && Frontend.passwordValidator(document.getElementById("WelcomeLoginPanelPasswordInput").value)
+
+  }
+
+  function performLogin() {
+    if (!canLogIn()) {
+      return
+    }
+  }
+
+</script>
 
 <body">
   <div id="PayrusHeader">
@@ -38,11 +64,11 @@
         <b>Платить за границей неудобно? Есть решение!</b>
       </div>
       <div id="WelcomeLoginPanelLoginBox">
-        <input id="WelcomeLoginPanelEmailInput" type="text" placeholder="Email">
-        <input id="WelcomeLoginPanelPasswordInput" type="password" placeholder="Пароль">
+        <input id="WelcomeLoginPanelEmailInput" type="text" placeholder="Email" oninput="validateEmail()">
+        <input id="WelcomeLoginPanelPasswordInput" type="password" placeholder="Пароль" oninput="validatePassword()">
         <input id="WelcomeLoginPanelRememberCheck" type="checkbox">
         <label id="WelcomeLoginPanelRememberCheckLabel" for="WelcomeLoginPanelRememberCheck">Запомнить меня</label>
-        <button id="WelcomeLoginPanelLoginButton">Войти</button>
+        <button id="WelcomeLoginPanelLoginButton" disabled>Войти</button>
         
         <div id="WelcomeLoginPanelForgotPasswordPanel">
           <a id="WelcomeLoginPanelForgotPasswordLink" href="">Забыли пароль?</a>

@@ -1,85 +1,67 @@
 // PizTec Corporation, 2024. All Right Reserved
 
-const auth_token_item = "auth_token"
+var Frontend = {
+    emailValidator: function(value) {
+        return value.toLowerCase().match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    },
 
-accountConfiguration = {
-    conversionRate: 100
-}
+    passwordValidator: function(value) {
+        return value.toLowerCase().match(
+            /^([0-9]|[a-z]){10,}$/
+        )
+    },
 
-function createAccount(email, password, dob, callback) {
-    window.sessionStorage.setItem(auth_token_item, "test")
+    validateInputField: function(elementId, validator) {
+        element = document.getElementById(elementId)
 
-    callback(null)
-}
+        isValid = element.value == "" ? true : validator(element.value)
+        this.setElementValid(elementId, isValid)
 
-function orderCard(firstName, lastName, callback) {
-    accountConfiguration.card = {
-        firstName: firstName,
-        lastName: lastName,
-        expiration: "2/26",
-        balance: 100,
-    }
-    callback(null)
-}
-
-function logIn(email, password, callback) {
-    window.sessionStorage.setItem(auth_token_item, "test")
-    callback(null)
-}
-
-function logOut(callback) {
-    window.sessionStorage.removeItem(auth_token_item)
-
-    callback(null)
-}
-
-function getToken() {
-    return window.sessionStorage.getItem(auth_token_item)
-}
-
-function getConfiguration() {
-    return accountConfiguration
-}
+        return isValid
+    },
 
 
-function validateInputField(elementId, statusElementId, validator) {
-    element = document.getElementById(elementId)
-    statusElement = document.getElementById(statusElementId)
+    validateInputFieldWithStatus: function(elementId, statusElementId, validator) {
+        element = document.getElementById(elementId)
+        statusElement = document.getElementById(statusElementId)
 
-    isValid = false
+        isValid = false
 
-    if (element.value == "") {
-      statusElement.classList.remove("bad")
-      statusElement.classList.remove("good")
-    } else {
-      if (validator(element.value)) {
+        if (element.value == "") {
         statusElement.classList.remove("bad")
-        statusElement.classList.add("good")
-
-        isValid = true
-      } else {
         statusElement.classList.remove("good")
-        statusElement.classList.add("bad")
-      }
-    }
+        } else {
+        if (validator(element.value)) {
+            statusElement.classList.remove("bad")
+            statusElement.classList.add("good")
 
-    return isValid
-}
+            isValid = true
+        } else {
+            statusElement.classList.remove("good")
+            statusElement.classList.add("bad")
+        }
+        }
 
-function setElementEnabled(elementName, isEnabled) {
-    element = document.getElementById(elementName)
-    if (isEnabled) {
-        element.removeAttribute("disabled")
-    } else {
-        element.setAttribute("disabled", "")
-    }
-}
+        return isValid
+    },
 
-function setElementValid(elementName, isValid) {
-    element = document.getElementById(elementName)
-    if (isValid) {
-        element.classList.remove("invalid")
-    } else {
-        element.classList.add("invalid")
+    setElementEnabled: function(elementName, isEnabled) {
+        element = document.getElementById(elementName)
+        if (isEnabled) {
+            element.removeAttribute("disabled")
+        } else {
+            element.setAttribute("disabled", "")
+        }
+    },
+
+    setElementValid: function(elementName, isValid) {
+        element = document.getElementById(elementName)
+        if (isValid) {
+            element.classList.remove("invalid")
+        } else {
+            element.classList.add("invalid")
+        }
     }
 }
