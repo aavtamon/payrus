@@ -14,7 +14,7 @@ var Backend = {
     },
 
     orderCard: function(firstName, lastName, callback) {
-        accountConfiguration.card = {
+        this.accountConfiguration.card = {
             firstName: firstName.toUpperCase(),
             lastName: lastName.toUpperCase(),
             expiration: "2/26",
@@ -39,6 +39,6 @@ var Backend = {
     },
 
     getConfiguration: function() {
-        return accountConfiguration
+        return this.accountConfiguration
     }
 }

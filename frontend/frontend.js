@@ -16,13 +16,28 @@ var Frontend = {
     validateInputField: function(elementId, validator) {
         element = document.getElementById(elementId)
 
-        isValid = element.value == "" ? true : validator(element.value)
-        this.setElementValid(elementId, isValid)
+        if (element.value == "") {
+            element.classList.remove("valid")
+            element.classList.remove("invalid")
 
-        return isValid
+            return false
+        }
+
+        if (validator(element.value)) {
+            element.classList.remove("invalid")
+            element.classList.add("valid")
+
+            return true
+        } else {
+            element.classList.remove("valid")
+            element.classList.add("invalid")
+
+            return false
+        }
     },
 
 
+    /*
     validateInputFieldWithStatus: function(elementId, statusElementId, validator) {
         element = document.getElementById(elementId)
         statusElement = document.getElementById(statusElementId)
@@ -46,6 +61,7 @@ var Frontend = {
 
         return isValid
     },
+    */
 
     setElementEnabled: function(elementName, isEnabled) {
         element = document.getElementById(elementName)
@@ -54,14 +70,6 @@ var Frontend = {
         } else {
             element.setAttribute("disabled", "")
         }
-    },
-
-    setElementValid: function(elementName, isValid) {
-        element = document.getElementById(elementName)
-        if (isValid) {
-            element.classList.remove("invalid")
-        } else {
-            element.classList.add("invalid")
-        }
     }
 }
+

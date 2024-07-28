@@ -41,20 +41,20 @@
 }
 
 #RegistrationPanelEmailInput, #RegistrationPanelPasswordInput, #RegistrationPanelRetypePasswordInput, #RegistrationPanelDOBInput {
-    display: inline-block;
-    width: calc(100% - 80px);
+    display: block;
+    width: calc(100% - 20px);
     padding: 10px;
-    vertical-align: top;
 
     font-size: 20px;
     font-family:'Times New Roman', Times, serif
 }
 
+/*
 #RegistrationPanelEmailStatus, #RegistrationPanelPasswordStatus, #RegistrationPanelRetypePasswordStatus, #RegistrationPanelDOBStatus {
     width: 45px;
     height: 45px;
 }
-
+ 
 .input_status {
     display: inline-block;
     background-size: contain;
@@ -65,8 +65,9 @@
 .input_status.bad {
     background-image: url("imgs/cross.png");
 }
+ */
 
-#RegistrationPanelEmailHelp, #RegistrationPanelPasswordHelp, #RegistrationPanelRetypePasswordHelp, #RegistrationPanelDOBHelp {
+ #RegistrationPanelEmailHelp, #RegistrationPanelPasswordHelp, #RegistrationPanelRetypePasswordHelp, #RegistrationPanelDOBHelp {
     margin-left: 10px;
     margin-top: 5px;
     font-size: 15px;
@@ -93,6 +94,8 @@
 #RegistrationButton {
     display: block;
     width: 100%;
+
+    margin-top: 50px;
 }
 
 #RegistrationPanelStatus {

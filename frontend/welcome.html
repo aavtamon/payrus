@@ -35,6 +35,12 @@
     if (!canLogIn()) {
       return
     }
+
+    Backend.logIn(document.getElementById("WelcomeLoginPanelEmailInput").value, document.getElementById("WelcomeLoginPanelPasswordInput").value, function(error) {
+      if (!error) {
+        window.location = "dashboard.html"
+      }
+    })
   }
 
 </script>
@@ -68,7 +74,7 @@
         <input id="WelcomeLoginPanelPasswordInput" type="password" placeholder="Пароль" oninput="validatePassword()">
         <input id="WelcomeLoginPanelRememberCheck" type="checkbox">
         <label id="WelcomeLoginPanelRememberCheckLabel" for="WelcomeLoginPanelRememberCheck">Запомнить меня</label>
-        <button id="WelcomeLoginPanelLoginButton" disabled>Войти</button>
+        <button id="WelcomeLoginPanelLoginButton" disabled onclick="performLogin()">Войти</button>
         
         <div id="WelcomeLoginPanelForgotPasswordPanel">
           <a id="WelcomeLoginPanelForgotPasswordLink" href="">Забыли пароль?</a>

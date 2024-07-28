@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="payrus.css">
   <link rel="stylesheet" href="dashboard.css">
   <script src="frontend.js"></script>
+  <script src="backend.js"></script>
 
   <!--script src="https://js.stripe.com/v3/"></script-->
 </head>
@@ -15,13 +16,13 @@
 <script>
   function onPageLoad() {
     conversionRateElement = document.getElementById("DashboardAddFundsConversionRate")
-    conversionRateElement.innerHTML = getConfiguration().conversionRate + " руб/доллар"
+    conversionRateElement.innerHTML = Backend.getConfiguration().conversionRate + " руб/доллар"
 
     initCardPanel()
   }
 
   function initCardPanel() {
-    config = getConfiguration()
+    config = Backend.getConfiguration()
     if (config.card != null) {
       document.getElementById("DashboardCardStab").style.display = "none"
       document.getElementById("DashboardCard").style.display = "block"
@@ -36,7 +37,7 @@
   }
 
   function performLogout() {
-    logOut(function(error) {
+    Backend.logOut(function(error) {
       window.location="welcome.html"
     })
   }
@@ -44,7 +45,7 @@
   function performCardOrdering() {
     firstName = document.getElementById("DashboardCardStabFirstNameInput").value
     lastName = document.getElementById("DashboardCardStabLastNameInput").value
-    orderCard(firstName, lastName, function(error) {
+    Backend.orderCard(firstName, lastName, function(error) {
       if (error == null) {
         initCardPanel()
         document.getElementById("DashboardCardStab").style.display = "none"
@@ -54,19 +55,23 @@
   }
 
   function validateAddFunds() {
-    valid = false
-    value = document.getElementById("DashboardAddFundsInput").value
-    if (value != "") {
+    fundsValidator = function(value) {
+      if (value == "") {
+        return false
+      }
+
       funds = parseInt(value)
-      valid = funds > 0 && funds <= 100000
+      return funds > 0 && funds <= 100000
     }
 
-    setElementValid("DashboardAddFundsInput", valid)
-    setElementEnabled("DashboardAddFundsButton", valid)
+    isValid = Frontend.validateInputField("DashboardAddFundsInput", fundsValidator)
+    Frontend.setElementEnabled("DashboardAddFundsButton", isValid)
 
+    value = document.getElementById("DashboardAddFundsInput").value
+    funds = parseInt(value)
     dollarValue = "-"
-    if (valid) {
-      dollarValue = funds / getConfiguration().conversionRate
+    if (isValid) {
+      dollarValue = funds / Backend.getConfiguration().conversionRate
       document.getElementById("DashboardAddFundsInDollarsValue").innerHTML = "$" + dollarValue
     } else {
       document.getElementById("DashboardAddFundsInDollarsValue").innerHTML = value == "" ? "$0" : "-"
@@ -76,20 +81,15 @@
 
   function validateCardOrdering() {
     nameValidator = function(name) {
-      return name == "" || name.toLowerCase().match(
+      return name != "" && name.toLowerCase().match(
         /^([a-z])+$/
       ) != null
     }
     
-    firstNameElement = document.getElementById("DashboardCardStabFirstNameInput")
-    firstNameValid = nameValidator(firstNameElement.value)
-    setElementValid("DashboardCardStabFirstNameInput", firstNameValid)
+    firstNameValid = Frontend.validateInputField("DashboardCardStabFirstNameInput", nameValidator)
+    lastNameValid = Frontend.validateInputField("DashboardCardStabLastNameInput", nameValidator)
 
-    lastNameElement = document.getElementById("DashboardCardStabLastNameInput")
-    lastNameValid = nameValidator(lastNameElement.value)
-    setElementValid("DashboardCardStabLastNameInput", lastNameValid)
-
-    setElementEnabled("DashboardCardStabOrderButton", lastNameElement.value != "" && firstNameValid && lastNameElement.valud != "" && lastNameValid)
+    Frontend.setElementEnabled("DashboardCardStabOrderButton", firstNameValid && lastNameValid)
   }
 </script>
 

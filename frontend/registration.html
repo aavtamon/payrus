@@ -14,37 +14,50 @@
 
 <script>
   function validateEmail() {
-    return Frontend.validatePassword("RegistrationPanelEmailInput")    
+    Frontend.validateInputField("RegistrationPanelEmailInput", Frontend.emailValidator)
+
+    Frontend.setElementEnabled("RegistrationButton", canRegister())
   }
 
   function validatePassword() {
-    return Frontend.validatePassword("RegistrationPanelPasswordInput")    
-  }
-
-  function validatePasswordAndResetRetype() {
+    Frontend.validateInputField("RegistrationPanelPasswordInput", Frontend.passwordValidator)
     document.getElementById("RegistrationPanelRetypePasswordInput").value = ""
-    validatePassword()
+
+    Frontend.setElementEnabled("RegistrationButton", canRegister())
   }
 
   function validateRetypePassword() {
-    passwordElement = document.getElementById("RegistrationPanelPasswordInput")
-    return validateInputField("RegistrationPanelRetypePasswordInput", function(value) {
-      return value == passwordElement.value
+    Frontend.validateInputField("RegistrationPanelRetypePasswordInput", function(value) {
+      return value == document.getElementById("RegistrationPanelPasswordInput").value
     })
+
+    Frontend.setElementEnabled("RegistrationButton", canRegister())
   }
 
-  function validateDOB() {
-    return validateInputField("RegistrationPanelDOBInput", function(value) {
+  function dobValidator(value) {      console.debug()
       selectedDate = new Date(value)
       currentDate = Date.now()
       dateOffset = (24*60*60*1000) * 365 * 21; // 21 years
 
       return currentDate - selectedDate > dateOffset
-    })
+  }
+
+  function validateDOB() {
+    Frontend.validateInputField("RegistrationPanelDOBInput", dobValidator)
+
+    Frontend.setElementEnabled("RegistrationButton", canRegister())
+  }
+
+
+  function canRegister() {
+    return Frontend.emailValidator(document.getElementById("RegistrationPanelEmailInput").value)
+      && Frontend.passwordValidator(document.getElementById("RegistrationPanelPasswordInput").value)
+      && document.getElementById("RegistrationPanelRetypePasswordInput").value == document.getElementById("RegistrationPanelPasswordInput").value
+      && dobValidator(document.getElementById("RegistrationPanelDOBInput").value)
   }
 
   function performRegistration() {
-    isValid = validateEmail() && validatePassword() && validateRetypePassword() && validateDOB()
+    isValid = canRegister()
 
     statusElement = document.getElementById("RegistrationPanelStatus")
     if (!isValid) {
@@ -57,7 +70,7 @@
         email = document.getElementById("RegistrationPanelEmailInput").value
         password = document.getElementById("RegistrationPanelPasswordInput").value
         dob = document.getElementById("RegistrationPanelDOBInput").value
-        createAccount(email, password, dob, function(error) {
+        Backend.createAccount(email, password, dob, function(error) {
           if (error == null) {
             // Registration is successful - move forward to the dashboard
             window.location = "dashboard.html"
@@ -103,22 +116,18 @@
       <div id="RegistrationBox">
         <div id="RegistrationPanelEmailBox">
           <input id="RegistrationPanelEmailInput" type="text" placeholder="Email" oninput="validateEmail()">
-          <div id="RegistrationPanelEmailStatus" class="input_status"></div>
           <div id="RegistrationPanelEmailHelp">На указанную электронную почту придет подтвержение</div>
         </div>
         <div id="RegistrationPanelPasswordBox">
-          <input id="RegistrationPanelPasswordInput" type="password" placeholder="Пароль" oninput="validatePasswordAndResetRetype()">
-          <div id="RegistrationPanelPasswordStatus" class="input_status"></div>
+          <input id="RegistrationPanelPasswordInput" type="password" placeholder="Пароль" oninput="validatePassword()">
           <div id="RegistrationPanelPasswordHelp">Пароль должен содержать не менее 10 символов</div>
         </div>
         <div id="RegistrationPanelRetypePasswordBox">
           <input id="RegistrationPanelRetypePasswordInput" type="password" placeholder="Повторите пароль" oninput="validateRetypePassword()">
-          <div id="RegistrationPanelRetypePasswordStatus" class="input_status"></div>
           <div id="RegistrationPanelRetypePasswordHelp">Повторно введенный пароль должен совпасть</div>
         </div>
         <div id="RegistrationPanelDOBBox">
           <input id="RegistrationPanelDOBInput" type="date" onchange="validateDOB()">
-          <div id="RegistrationPanelDOBStatus" class="input_status"></div>
           <div id="RegistrationPanelDOBHelp">Вы должны быть старше 21 чтобы использовать сервис</div>
         </div>
 
