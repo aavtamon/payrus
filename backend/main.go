@@ -64,7 +64,6 @@ func startWebServer(stopChan chan bool) error {
 	}
 
 	webMux := http.NewServeMux()
-	fmt.Println(">>> ", http.Dir(webRootDir))
 	webMux.Handle("/", http.FileServer(http.Dir(webRootDir)))
 	webMux.HandleFunc("/api/", apiHandler)
 
