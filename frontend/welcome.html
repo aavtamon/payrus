@@ -36,9 +36,16 @@
       return
     }
 
-    Backend.logIn(document.getElementById("WelcomeLoginPanelEmailInput").value, document.getElementById("WelcomeLoginPanelPasswordInput").value, function(error) {
-      if (!error) {
+    document.getElementById("WelcomeLoginPanelLoginStatusLabel").innerHTML = "Логинюсь..."
+    Backend.logIn(document.getElementById("WelcomeLoginPanelEmailInput").value, document.getElementById("WelcomeLoginPanelPasswordInput").value, function(code) {
+      if (code === BACKEND_CODE_SUCCESS) {
         window.location = "dashboard.html"
+      } else {
+        if (code == BACKEND_CODE_NOT_FOUND) {
+          document.getElementById("WelcomeLoginPanelLoginStatusLabel").innerHTML = "Неверный email / пароль"
+        } else {
+          document.getElementById("WelcomeLoginPanelLoginStatusLabel").innerHTML = "Не получается залогиниться - ошибка сервера"
+        }
       }
     })
   }
@@ -75,6 +82,7 @@
         <input id="WelcomeLoginPanelRememberCheck" type="checkbox">
         <label id="WelcomeLoginPanelRememberCheckLabel" for="WelcomeLoginPanelRememberCheck">Запомнить меня</label>
         <button id="WelcomeLoginPanelLoginButton" disabled onclick="performLogin()">Войти</button>
+        <label id="WelcomeLoginPanelLoginStatusLabel"></label>
         
         <div id="WelcomeLoginPanelForgotPasswordPanel">
           <a id="WelcomeLoginPanelForgotPasswordLink" href="">Забыли пароль?</a>

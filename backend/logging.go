@@ -17,6 +17,10 @@ func (log *logger) Info(format string, params ...any) {
 	log.logMessage("INFO", format, params...)
 }
 
+func (log *logger) Warning(format string, params ...any) {
+	log.logMessage("WARN", format, params...)
+}
+
 func (log *logger) Debug(format string, params ...any) {
 	log.logMessage("DEBUG", format, params...)
 }

@@ -15,21 +15,26 @@
 
 <script>
   function onPageLoad() {
+    if (!Backend.isLogged()) {
+      window.location = "/"
+    }
+
     conversionRateElement = document.getElementById("DashboardAddFundsConversionRate")
-    conversionRateElement.innerHTML = Backend.getConfiguration().conversionRate + " руб/доллар"
+    conversionRateElement.innerHTML = Backend.getAccount().payment.conversion_rate + " руб/доллар"
 
     initCardPanel()
   }
 
   function initCardPanel() {
-    config = Backend.getConfiguration()
-    if (config.card != null) {
+    account = Backend.getAccount()
+    if (account.card != null) {
       document.getElementById("DashboardCardStab").style.display = "none"
       document.getElementById("DashboardCard").style.display = "block"
 
-      document.getElementById("DashboardCardInscriptionLabel").innerHTML = config.card.firstName + " " + config.card.lastName
-      document.getElementById("DashboardCardExpirationValue").innerHTML = config.card.expiration
-      document.getElementById("DashboardCardCurrentFundsValue").innerHTML = "$" + config.card.balance
+      document.getElementById("DashboardCardNumberLabel").innerHTML = account.card.number
+      document.getElementById("DashboardCardInscriptionLabel").innerHTML = account.card.first_name + " " + account.card.last_name
+      document.getElementById("DashboardCardExpirationValue").innerHTML = account.card.expiration
+      document.getElementById("DashboardCardCurrentFundsValue").innerHTML = "$" + account.card.balance
     } else {
       document.getElementById("DashboardCardStab").style.display = "block"
       document.getElementById("DashboardCard").style.display = "none"
@@ -37,7 +42,7 @@
   }
 
   function performLogout() {
-    Backend.logOut(function(error) {
+    Backend.logOut(function() {
       window.location="welcome.html"
     })
   }
@@ -45,11 +50,13 @@
   function performCardOrdering() {
     firstName = document.getElementById("DashboardCardStabFirstNameInput").value
     lastName = document.getElementById("DashboardCardStabLastNameInput").value
-    Backend.orderCard(firstName, lastName, function(error) {
-      if (error == null) {
+    Backend.orderCard(firstName, lastName, function(status) {
+      if (status == BACKEND_CODE_SUCCESS) {
         initCardPanel()
         document.getElementById("DashboardCardStab").style.display = "none"
         document.getElementById("DashboardCard").style.display = "block"
+      } else {
+
       }
     })
   }
@@ -71,7 +78,7 @@
     funds = parseInt(value)
     dollarValue = "-"
     if (isValid) {
-      dollarValue = funds / Backend.getConfiguration().conversionRate
+      dollarValue = funds / Backend.getAccount().payment.conversion_rate
       document.getElementById("DashboardAddFundsInDollarsValue").innerHTML = "$" + dollarValue
     } else {
       document.getElementById("DashboardAddFundsInDollarsValue").innerHTML = value == "" ? "$0" : "-"
@@ -113,7 +120,7 @@
           <input id="DashboardCardStabFirstNameInput" type="text" placeholder="Имя (латинницей)" oninput="validateCardOrdering()">
           <input id="DashboardCardStabLastNameInput" type="text" placeholder="Фамилия (латинницей)" oninput="validateCardOrdering()">
           <button id="DashboardCardStabOrderButton" disabled onclick="performCardOrdering()">Заказать карту</button>
-          <div id="DashboardCardStabOrderStatus"></div>
+          <label id="DashboardCardStabOrderStatus"></label>
         </div>
         <div id="DashboardCard">
           <div id="DashboardCardCurrentFundsPanel">
@@ -121,10 +128,11 @@
             <label id="DashboardCardCurrentFundsValue">$0</label>  
           </div>
           <label id="DashboardCardLogoLabel">Payment Bridge Services</label>
-          <label id="DashboardCardInscriptionLabel">Firstname Lastnamovich</label>
+          <label id="DashboardCardNumberLabel"></label>
+          <label id="DashboardCardInscriptionLabel"></label>
           <div id="DashboardCardExpirationPanel">
             <label id="DashboardCardExpirationLabel">Expires:</label>
-            <label id="DashboardCardExpirationValue">01/25</label>
+            <label id="DashboardCardExpirationValue"></label>
           </div>
         </div>
         <div id="DashboardCardManagement">
@@ -132,7 +140,7 @@
           <a id="DashboardCardReplaceLink" href="card_lost.html">Заказать замену</a>
         </div>
         <div id="DashboardCardTransactionsPanel">
-
+          История по карте:
         </div>
       </div>
       <div id="DashboardFundsPanel">

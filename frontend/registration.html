@@ -69,14 +69,25 @@
 
         email = document.getElementById("RegistrationPanelEmailInput").value
         password = document.getElementById("RegistrationPanelPasswordInput").value
-        dob = document.getElementById("RegistrationPanelDOBInput").value
-        Backend.createAccount(email, password, dob, function(error) {
-          if (error == null) {
-            // Registration is successful - move forward to the dashboard
-            window.location = "dashboard.html"
+        
+        dobDate = new Date(document.getElementById("RegistrationPanelDOBInput").value)
+        dob = dobDate.getMonth() + "/" + dobDate.getDate() + "/" + dobDate.getFullYear()
+        Backend.createAccount(email, password, dob, function(status) {
+          if (status == BACKEND_CODE_SUCCESS) {
+            // Registration is successful - move forward with login
+            Backend.logIn(email, password, function(status) {
+              if (status == BACKEND_CODE_SUCCESS) {
+                // Login is also successful - move to the dashboard
+                window.location = "dashboard.html"
+              } else {
+                // Login failed
+                statusElement.innerHTML = "Что то пошло не так - возможен сбой в работе сервера: " + error
+              }
+            })            
+          } else if (status == BACKEND_CODE_ALREADY_EXISTS) {
+            statusElement.innerHTML = "Такой эккаунт уже существует"  
           } else {
-            // Registration failed
-            statusElement.innerHTML = "Что то пошло не так: " + error  
+            statusElement.innerHTML = "Что то пошло не так - не могу создать эккаунт"  
           }
         })
       } else {
