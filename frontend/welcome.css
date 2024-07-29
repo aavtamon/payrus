@@ -2,6 +2,8 @@
     padding-left: 50px;
     padding-right: 50px;
     margin-top: 30px;
+
+    min-width: 1000px;
 }
 
 #WelcomeLoginPanelDescription {

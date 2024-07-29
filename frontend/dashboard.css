@@ -1,11 +1,15 @@
 #DashboardPanel {
+    display: flex;
+    justify-content: space-between;
     padding-left: 100px;
     padding-right: 100px;
     margin-top: 50px;
+
+    min-width: 1300px;
 }
 
 #DashboardCardPanel {
-    display: inline-block;
+    display: block;
 }
 
 #DashboardCardStab {
@@ -168,7 +172,7 @@
 }
 
 #DashboardFundsPanel {
-    display: inline-block;
+    display: flex;
     vertical-align: top;
     width: 700px;
 
