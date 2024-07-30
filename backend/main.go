@@ -131,10 +131,9 @@ func processLoginRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	account := LoadAccount(loginCreds)
-
+	account := FindAccountByCredentials(loginCreds)
 	if account == nil {
-		Logger.Warning("Login request for %s - account NOT found", loginCreds.Email)
+		Logger.Warning("Login request for %s failed", loginCreds.Email)
 
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("Login credentials are incorrect"))
@@ -179,7 +178,7 @@ func processCreateAccountRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	account := LoadAccount(accountCreds)
+	account := FindAccountByEmail(accountCreds.Email)
 	if account != nil {
 		Logger.Warning("Account creation request for an existing account %s", accountCreds.Email)
 
@@ -235,7 +234,7 @@ func processCreateCardRequest(w http.ResponseWriter, r *http.Request) {
 
 	Logger.Info("Processing card creation request for account %s", account.Credentials.Email)
 
-	err = CreateCard(account, cardRequest)
+	err = account.CreateCard(cardRequest)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Unable to create a card"))

@@ -36,19 +36,33 @@ type Account struct {
 var accounts []*Account
 var accountId int64 = time.Now().UnixMilli()
 
-func LoadAccount(credentials *AccountCredentials) *Account {
+func FindAccountByCredentials(credentials *AccountCredentials) *Account {
+	account := FindAccountByEmail(credentials.Email)
+	if account == nil {
+		return nil
+	}
+
+	if !verifyPassword(account, credentials.Password) {
+		return nil
+	}
+
+	return account
+}
+
+func FindAccountById(accountId int64) *Account {
 	for _, account := range accounts {
-		if account.Credentials.Email == credentials.Email {
+		if account.Id == accountId {
 			return account
 		}
 	}
 
 	return nil
+
 }
 
-func FindAccount(accountId int64) *Account {
+func FindAccountByEmail(email string) *Account {
 	for _, account := range accounts {
-		if account.Id == accountId {
+		if account.Credentials.Email == email {
 			return account
 		}
 	}
@@ -71,7 +85,7 @@ func CreateAccount(credentials *AccountCredentials) (*Account, error) {
 	return account, nil
 }
 
-func CreateCard(account *Account, cardRequest *Card) error {
+func (account *Account) CreateCard(cardRequest *Card) error {
 	account.Card = &Card{
 		Number:     "1111 2222 3333 4444",
 		FirstName:  strings.ToUpper(cardRequest.FirstName),
@@ -85,4 +99,8 @@ func CreateCard(account *Account, cardRequest *Card) error {
 
 func createUniqueAccountId() int64 {
 	return atomic.AddInt64(&accountId, 1)
+}
+
+func verifyPassword(account *Account, password string) bool {
+	return account.Credentials.Password == password
 }

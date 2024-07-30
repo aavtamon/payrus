@@ -48,6 +48,8 @@
   }
 
   function performCardOrdering() {
+    document.getElementById("DashboardCardStabOrderStatus").innerHTML = "Обрабатываю запрос"
+
     firstName = document.getElementById("DashboardCardStabFirstNameInput").value
     lastName = document.getElementById("DashboardCardStabLastNameInput").value
     Backend.orderCard(firstName, lastName, function(status) {
@@ -56,7 +58,7 @@
         document.getElementById("DashboardCardStab").style.display = "none"
         document.getElementById("DashboardCard").style.display = "block"
       } else {
-
+        document.getElementById("DashboardCardStabOrderStatus").innerHTML = "Не получилось запросить карту"
       }
     })
   }
