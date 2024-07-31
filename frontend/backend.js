@@ -77,6 +77,21 @@ var Backend = {
         })
     },
 
+    changePassword: function(newPassword, currentPassword, callback) {
+        this._communicate("change_account", "PUT", {password: newPassword, current_password: currentPassword}, {
+            success: function() {
+              if (callback) {
+                callback(BACKEND_CODE_SUCCESS);
+              }
+            },
+            error: function(errorText, status, request) {
+              if (callback) {
+                callback(status, errorText);
+              }
+            }
+        })
+    },
+
     orderCard: function(firstName, lastName, callback) {
         account = this.getAccount()
         if (account == null) {

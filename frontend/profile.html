@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="imgs/payrus_icon.png">
+  <title>Payment Bridge</title>
+  
+  <link rel="stylesheet" href="payrus.css">
+  <link rel="stylesheet" href="profile.css">
+  <script src="frontend.js"></script>
+  <script src="backend.js"></script>
+</head>
+
+<script>
+  function onPageLoad() {
+    if (!Backend.isLogged()) {
+      window.location = "/"
+    }
+  }
+
+  function performLogout() {
+    Backend.logOut(function() {
+      window.location="welcome.html"
+    })
+  }
+
+  function startPasswordChange() {
+    document.getElementById("PasswordPanelChangePasswordLink").style.display = "none"
+
+    document.getElementById("PasswordPanelNewPasswordInput").value = ""
+    document.getElementById("PasswordPanelRetypePasswordInput").value = ""
+    document.getElementById("PasswordPanelCurrentPasswordInput").value = ""
+    document.getElementById("PasswordPanelChangePasswordPanel").style.display = "block"
+  }
+
+  function stopPasswordChange() {
+    document.getElementById("PasswordPanelChangePasswordLink").style.display = "block"
+    document.getElementById("PasswordPanelChangePasswordPanel").style.display = "none"
+  }
+
+  function validateNewPassword() {
+    Frontend.validateInputField("PasswordPanelNewPasswordInput", Frontend.passwordValidator)
+    document.getElementById("PasswordPanelRetypePasswordInput").value = ""
+
+    Frontend.setElementEnabled("PasswordPanelChangePasswordButton", canChangePassword())
+  }
+
+  function validateRetypePassword() {
+    Frontend.validateInputField("PasswordPanelRetypePasswordInput", function(value) {
+      return value == document.getElementById("PasswordPanelNewPasswordInput").value
+    })
+
+    Frontend.setElementEnabled("PasswordPanelChangePasswordButton", canChangePassword())
+  }
+
+  function validateCurrentPassword() {
+    Frontend.validateInputField("PasswordPanelCurrentPasswordInput", Frontend.passwordValidator)
+
+    Frontend.setElementEnabled("PasswordPanelChangePasswordButton", canChangePassword())
+  }
+
+  function canChangePassword() {
+      return Frontend.passwordValidator(document.getElementById("PasswordPanelNewPasswordInput").value)
+      && document.getElementById("PasswordPanelRetypePasswordInput").value == document.getElementById("PasswordPanelNewPasswordInput").value
+      && Frontend.passwordValidator(document.getElementById("PasswordPanelCurrentPasswordInput").value)
+  }
+
+  function performPasswordChange() {
+    isValid = canChangePassword()
+
+    statusElement = document.getElementById("PasswordPanelChangePasswordStatus")
+    if (!isValid) {
+      statusElement.innerHTML = "Убедитесь что все поля правильно заполнены"
+    } else {
+      statusElement.innerHTML = "Меняем пароль..."
+
+      newPassword = document.getElementById("PasswordPanelNewPasswordInput").value
+      currentPassword = document.getElementById("PasswordPanelCurrentPasswordInput").value
+      
+      Backend.changePassword(newPassword, currentPassword, function(status) {
+        if (status == BACKEND_CODE_SUCCESS) {
+          stopPasswordChange()
+        } else if (status == BACKEND_CODE_ALREADY_EXISTS) {
+          statusElement.innerHTML = "Не удалось поменять - проверьте правильность текущего пароля"  
+        } else {
+          statusElement.innerHTML = "Что то пошло не так - не могу поменять пароль"
+        }
+      })
+    }
+  }
+
+</script>
+
+<body onload="onPageLoad()">
+  <div id="PayrusHeader">
+    <div id="PayrusLeftSideHeaderMenu">
+        <div class="payrus-header-menu-item" onclick="window.location='dashboard.html'">Мой Эккаунт</div>
+      </div>
+      <div id="PayrusRightSideHeaderMenu">
+        <div class="payrus-header-menu-item selected" onclick="window.location='profile.html'">Настройки Профиля</div>
+        <div class="payrus-header-menu-item" onclick="performLogout()">Выйти</div>
+      </div>
+    </div>
+
+  <div id="PayrusPageMainArea">
+    <img id="PayrusLogo" src="imgs/payrus.png">
+    <div id="ProfilePanel">
+      <div id="PasswordPanel">
+        <a id="PasswordPanelChangePasswordLink" href="javascript:startPasswordChange()">Поменять пароль</a>
+        <div id="PasswordPanelChangePasswordPanel">
+          <input id="PasswordPanelNewPasswordInput" type="password" placeholder="Новый пароль" oninput="validateNewPassword()">
+          <input id="PasswordPanelRetypePasswordInput" type="password" placeholder="Повторите новый пароль" oninput="validateRetypePassword()">
+          <input id="PasswordPanelCurrentPasswordInput" type="password" placeholder="Старый пароль" oninput="validateCurrentPassword()">
+          <div id="PasswordPanelChangePasswordButtonsPanel">
+            <button id="PasswordPanelChangePasswordButton" disabled onclick="performPasswordChange()">Поменять</button>
+            <button id="PasswordPanelCancelChangePasswordButton" onclick="stopPasswordChange()">Отменить</button>
+          </div>
+          <label id="PasswordPanelChangePasswordStatus"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="PayrusFooter">
+      PizTec Corporation, 2024.&nbsp;&nbsp;&nbsp;All Rights Reserved. 
+  </div>
+</body>
+</html>

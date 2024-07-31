@@ -34,7 +34,7 @@
     Frontend.setElementEnabled("RegistrationButton", canRegister())
   }
 
-  function dobValidator(value) {      console.debug()
+  function dobValidator(value) {
       selectedDate = new Date(value)
       currentDate = Date.now()
       dateOffset = (24*60*60*1000) * 365 * 21; // 21 years

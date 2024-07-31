@@ -42,7 +42,7 @@ func FindAccountByCredentials(credentials *AccountCredentials) *Account {
 		return nil
 	}
 
-	if !verifyPassword(account, credentials.Password) {
+	if !account.VerifyPassword(credentials.Password) {
 		return nil
 	}
 
@@ -97,10 +97,14 @@ func (account *Account) CreateCard(cardRequest *Card) error {
 	return nil
 }
 
-func createUniqueAccountId() int64 {
-	return atomic.AddInt64(&accountId, 1)
+func (account *Account) VerifyPassword(password string) bool {
+	return account.Credentials.Password == password
 }
 
-func verifyPassword(account *Account, password string) bool {
-	return account.Credentials.Password == password
+func (account *Account) SetPassword(password string) {
+	account.Credentials.Password = password
+}
+
+func createUniqueAccountId() int64 {
+	return atomic.AddInt64(&accountId, 1)
 }

@@ -13,6 +13,15 @@
 </head>
 
 <script>
+  function onPageLoad() {
+    // get email cookie first
+    email = Frontend.getCookie("email")
+    if (email != null) {
+      document.getElementById("WelcomeLoginPanelEmailInput").value = email
+      document.getElementById("WelcomeLoginPanelRememberCheck").checked = true
+    }
+  }
+
   function validateEmail() {
     Frontend.validateInputField("WelcomeLoginPanelEmailInput", Frontend.emailValidator)
 
@@ -37,8 +46,15 @@
     }
 
     document.getElementById("WelcomeLoginPanelLoginStatusLabel").innerHTML = "Логинюсь..."
-    Backend.logIn(document.getElementById("WelcomeLoginPanelEmailInput").value, document.getElementById("WelcomeLoginPanelPasswordInput").value, function(code) {
+    email = document.getElementById("WelcomeLoginPanelEmailInput").value
+    Backend.logIn(email, document.getElementById("WelcomeLoginPanelPasswordInput").value, function(code) {
       if (code === BACKEND_CODE_SUCCESS) {
+        if (document.getElementById("WelcomeLoginPanelRememberCheck").checked) {
+          document.cookie = "email=" + email;
+        } else {
+          document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+        }
+        
         window.location = "dashboard.html"
       } else {
         if (code == BACKEND_CODE_NOT_FOUND) {
@@ -52,7 +68,7 @@
 
 </script>
 
-<body">
+<body onload="onPageLoad()">
   <div id="PayrusHeader">
     <div id="PayrusLeftSideHeaderMenu">
       <div class="payrus-header-menu-item selected" onclick="window.location='welcome.html'">Частным лицам</div>

@@ -36,6 +36,21 @@ var Frontend = {
         }
     },
 
+    getCookie: function(cookieName) {
+        cookies = decodeURIComponent(document.cookie).split(";")
+        for (i = 0; i < cookies.length; i++) {
+          cookie = cookies[i].trim()
+          cookiePair = cookie.split("=")
+          if (cookiePair.length > 1) {
+            if (cookiePair[0] == "email") {
+              return cookiePair[1]
+            }
+          }
+        }
+
+        return null
+    },
+
 
     /*
     validateInputFieldWithStatus: function(elementId, statusElementId, validator) {

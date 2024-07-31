@@ -104,6 +104,11 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+	if r.Method == http.MethodPut && r.URL.Path == path.Join(API_ROOT, "change_account") {
+		processChangeAccountRequest(w, r)
+
+		return
+	}
 	if r.Method == http.MethodPost && r.URL.Path == path.Join(API_ROOT, "create_card") {
 		processCreateCardRequest(w, r)
 
@@ -204,12 +209,69 @@ func processCreateAccountRequest(w http.ResponseWriter, r *http.Request) {
 	w.Write(accountAsJson)
 }
 
+func processChangeAccountRequest(w http.ResponseWriter, r *http.Request) {
+	account, _ := findLoggedAccount(w, r)
+	if account == nil {
+		return
+	}
+
+	accountChanges, err := io.ReadAll(r.Body)
+	r.Body.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Unable to read account change details"))
+
+		Logger.Error("Unable to process account change request for account %s: %v", account.Credentials.Email, err)
+		return
+	}
+
+	type changeAccountDetails struct {
+		AccountCredentials
+		CurrentPassword string `json:"current_password"`
+	}
+
+	changeDetails := &changeAccountDetails{}
+	err = json.Unmarshal(accountChanges, changeDetails)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Account change details are not provided"))
+
+		Logger.Error("Unable to process account change request for account %s: %v", account.Credentials.Email, err)
+		return
+	}
+
+	Logger.Info("Processing change request for account %s", account.Credentials.Email)
+
+	if !account.VerifyPassword(changeDetails.CurrentPassword) {
+		w.WriteHeader(http.StatusConflict)
+		w.Write([]byte("Account password is incorrect"))
+
+		Logger.Info("Unable to process account change request for account %s - incorrect current password", account.Credentials.Email)
+		return
+	}
+
+	account.SetPassword(changeDetails.Password)
+
+	Logger.Info("Account %s was successfully updated", account.Credentials.Email)
+
+	accountAsJson, _ := json.Marshal(account)
+	w.WriteHeader(http.StatusOK)
+	w.Write(accountAsJson)
+}
+
 func processCreateCardRequest(w http.ResponseWriter, r *http.Request) {
+	account, _ := findLoggedAccount(w, r)
+	if account == nil {
+		return
+	}
+
 	cardInfo, err := io.ReadAll(r.Body)
 	r.Body.Close()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Unable to read card details"))
+
+		Logger.Error("Unable to process card creation request for account %s: %v", account.Credentials.Email, err)
 		return
 	}
 
@@ -218,17 +280,16 @@ func processCreateCardRequest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Card details are not provided"))
+
+		Logger.Error("Unable to process card creation request for account %s: %v", account.Credentials.Email, err)
 		return
 	}
 
 	if cardRequest.FirstName == "" || cardRequest.LastName == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("First or last name is not provided"))
-		return
-	}
 
-	account, _ := findLoggedAccount(w, r)
-	if account == nil {
+		Logger.Error("Unable to process card creation request for account %s - card request is incomplete", account.Credentials.Email)
 		return
 	}
 
